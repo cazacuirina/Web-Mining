@@ -18,9 +18,22 @@ X = np.vstack((normal_data, outliers))
 
 # 4. Apply DBSCAN
 #    eps controls the neighborhood radius; min_samples is how many samples must be within eps to form a cluster
+dbscan = DBSCAN(eps=15, min_samples=5)
+dbscan_labels = dbscan.fit_predict(X)
 
 # 5. Identify outliers (DBSCAN labels them as -1)
+outlier_indices = np.where(dbscan_labels == -1)[0]
 
 # 6. Visualization
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=dbscan_labels, cmap='viridis', s=50, marker='o')
+plt.scatter(X[outlier_indices, 0], X[outlier_indices, 1], c='red', label='Outliers', s=100, edgecolors='black')
+plt.title("DBSCAN Anomaly Detection")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.legend()
+plt.show()
 
 # 7. Reporting
+print(f"Total points: {X.shape[0]}")
+print(f"Anomalies detected: {len(outlier_indices)}")
