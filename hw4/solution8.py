@@ -32,5 +32,40 @@ df_final['DBSCAN'] = dbscan.labels_
 df_final['Agglo'] = agg.labels_
 
 # 5. Plot side-by-side scatter plots of the clustering results in PCA space
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+
+# KMeans plot
+axes[0].scatter(df_final['PC1'], df_final['PC2'], c=df_final['KMeans'], cmap='viridis')
+axes[0].set_title('KMeans Clustering')
+axes[0].set_xlabel('PC1')
+axes[0].set_ylabel('PC2')
+
+# DBSCAN plot
+axes[1].scatter(df_final['PC1'], df_final['PC2'], c=df_final['DBSCAN'], cmap='viridis')
+axes[1].set_title('DBSCAN Clustering')
+axes[1].set_xlabel('PC1')
+axes[1].set_ylabel('PC2')
+
+# Agglomerative Clustering plot
+axes[2].scatter(df_final['PC1'], df_final['PC2'], c=df_final['Agglo'], cmap='viridis')
+axes[2].set_title('Agglomerative Clustering')
+axes[2].set_xlabel('PC1')
+axes[2].set_ylabel('PC2')
+
+plt.tight_layout()
+plt.show()
 
 # 6. Print a short cluster distribution report
+print("Cluster Distribution Report:")
+
+# KMeans
+print("\nKMeans Clusters:")
+print(df_final['KMeans'].value_counts())
+
+# DBSCAN (-1 for outliers)
+print("\nDBSCAN Clusters:")
+print(df_final['DBSCAN'].value_counts())
+
+# Agglomerative Clustering
+print("\nAgglomerative Clustering:")
+print(df_final['Agglo'].value_counts())
