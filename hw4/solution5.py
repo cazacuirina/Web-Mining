@@ -19,9 +19,20 @@ dbscan = DBSCAN(eps=0.5, min_samples=5).fit(X_scaled)
 agg = AgglomerativeClustering(n_clusters=3, linkage='ward').fit(X_scaled)
 
 # 3. Get the cluster labels from each method
+kmeans_labels = kmeans.labels_
+dbscan_labels = dbscan.labels_
+agg_labels = agg.labels_
 
 # 4. Compute silhouette scores (only if more than one cluster exists)
-#    DBSCAN might produce a single cluster or no clusters if parameters are not well-tuned,
-#    so we check to avoid an error in silhouette_score.
+def safe_silhouette_score(X, labels, method_name):
+    unique_labels = set(labels)
+    if len(unique_labels) > 1 and len(unique_labels) < len(X):
+        score = silhouette_score(X, labels)
+        print(f"{method_name} Silhouette Score: {score:.3f}")
+    else:
+        print(f"{method_name} Silhouette Score: Not applicable (only one cluster or too many unique labels)")
 
 # 5. Print the scores
+safe_silhouette_score(X_scaled, kmeans_labels, "KMeans")
+safe_silhouette_score(X_scaled, dbscan_labels, "DBSCAN")
+safe_silhouette_score(X_scaled, agg_labels, "Agglomerative Clustering")
