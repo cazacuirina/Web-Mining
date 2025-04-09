@@ -46,3 +46,32 @@ for i in sorted(df_customers['segment'].unique()):
     print(f"  - Avg. Frequency: {avg_freq:.1f} purchases/month")
     print(f"  - Avg. Spend: ${avg_spent:.2f}")
     print(f"  - Loyalty Score: {loyalty:.1f}/5\n")
+
+# 7. Marketing strategies for each segment
+# Example marketing messages or offers for each customer segment
+marketing_strategies = {
+    0: {
+        'subject': "Welcome to the Community!",
+        'offer': "10% discount on your next purchase"
+    },
+    1: {
+        'subject': "VIP Customer Appreciation",
+        'offer': "Exclusive access to new products"
+    },
+    2: {
+        'subject': "Loyalty Program Boost",
+        'offer': "Double loyalty points for a limited time"
+    },
+}
+
+# 8. Assign marketing messages based on segment
+df_customers['email_subject'] = df_customers['segment'].apply(
+    lambda seg: marketing_strategies[seg]['subject']
+)
+df_customers['special_offer'] = df_customers['segment'].apply(
+    lambda seg: marketing_strategies[seg]['offer']
+)
+
+# 9. Print results showing personalized strategies
+print("\nCustomer Data with Marketing Strategies:")
+print(df_customers.head(10))
